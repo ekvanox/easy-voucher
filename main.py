@@ -2,12 +2,17 @@ import re
 import questionary
 import json
 import requests
-import selenium
+from selenium import webdriver
+from selenium.webdriver.common.keys import Keys
+import time
+from selenium.webdriver.common.action_chains import ActionChains
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
 
 # Load vouchers into memory
 with open('vouchers.json') as f:
     vouchers = json.load(f)
-
 
 # Select service to create account for
 service = questionary.select(
@@ -16,7 +21,6 @@ service = questionary.select(
         'Foodora',
         'UberEats',
     ]).ask()
-
 # Enter first name to register account with
 first_name = input("Enter first name:")
 
@@ -27,8 +31,7 @@ last_name = input("Enter last name:")
 email_address = input("Enter account email address:")
 
 # Enter phone number to connect to account
-phone_number = input("Enter account phone number:")
-
+phone_number = input("Enter account phone number (local):")
 # Enter account password
 password = input("Enter account password:")
 
@@ -124,3 +127,60 @@ opt-in
     r = session.get('https://www.foodora.se/referral/result',
                     params={'code': voucher},
                     headers=headers)
+
+elif service == 'UberEats':
+
+    # Start chrome driver (requires selenium to be configured correctly beforehand)
+    driver = webdriver.Chrome()
+
+    # Load account creation page
+    driver.get("https://auth.uber.com/login/?uber_client_name=eatsWebSignUp&source=auth&next_url=https%3A%2F%2Fwww.ubereats.com%2Flogin-redirect%2F%3F")
+
+    # Select mobile number input box
+    mobile_input = driver.find_element_by_id("mobile")
+
+    # Enter phone number
+    mobile_input.send_keys(phone_number[1:])
+    mobile_input.send_keys(Keys.RETURN)
+
+    time.sleep(2)
+
+    # Select and click the google chapcha box
+    actions = ActionChains(driver)
+    actions.send_keys(Keys.TAB * 3)
+    actions.send_keys(Keys.SPACE)
+    actions.perform()
+
+    # Wait until user completes chapcha and OTP check, and enter email
+    element = WebDriverWait(driver, 9999999).until(
+        EC.presence_of_element_located((By.ID, "email"))
+    )
+    email_input = driver.find_element_by_id("email")
+    email_input.send_keys(email_address)
+    email_input.send_keys(Keys.RETURN)
+    time.sleep(1)
+
+    # Enter first and last name
+    first_name_input = driver.find_element_by_id("firstName")
+    first_name_input.send_keys(first_name)
+    last_name_input = driver.find_element_by_id("lastName")
+    last_name_input.send_keys(last_name)
+    last_name_input.send_keys(Keys.RETURN)
+    time.sleep(1)
+
+    # Enter password for account
+    password_input = driver.find_element_by_id("addPassword")
+    password_input.send_keys(password)
+    password_input.send_keys(Keys.RETURN)
+    time.sleep(1)
+
+    # Go to voucher entering link
+    driver.get("https://www.ubereats.com/se?mod=applyPromo&ps=1")
+    actions = ActionChains(driver)
+    actions.send_keys(Keys.TAB * 2)
+    actions.send_keys(voucher)
+    actions.send_keys(Keys.RETURN)
+    actions.perform()
+    time.sleep(1)
+
+    time.sleep(10)
