@@ -9,36 +9,51 @@ from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+import random
+import string
+
+
+def get_random_string(length):
+    letters = string.ascii_lowercase
+    result_str = ''.join(random.choice(letters) for i in range(length))
+
+    return result_str
+
 
 # Load vouchers into memory
-with open('vouchers.json') as f:
-    vouchers = json.load(f)
+with open('defaults.json') as f:
+    defaults_dict = json.load(f)
 
 # Select service to create account for
-service = questionary.select(
+service = defaults_dict['service'] or questionary.select(
     "Select service",
     choices=[
         'Foodora',
         'UberEats',
     ]).ask()
+
 # Enter first name to register account with
-first_name = input("Enter first name:")
+first_name = defaults_dict['firstName'] or input("Enter first name:")
 
 # Enter surname to register account with
-last_name = input("Enter last name:")
+last_name = defaults_dict['lastName'] or input("Enter last name:")
 
 # Enter email address to connect to account
-email_address = input("Enter account email address:")
+email_address = defaults_dict['emailAddress'] or input(
+    "Enter account email address:")
+if email_address is True:
+    email_address = f'{get_random_string(10)}@gmail.com'
 
 # Enter phone number to connect to account
-phone_number = input("Enter account phone number (local):")
+phone_number = defaults_dict['phoneNumber'] or input(
+    "Enter account phone number (local):")
 # Enter account password
-password = input("Enter account password:")
+password = defaults_dict['password'] or input("Enter account password:")
 
 # Select voucher
 voucher = questionary.select(
     "Select voucher",
-    choices=vouchers[service]+['None', 'Add new voucher']).ask()
+    choices=defaults_dict["vouchers"][service]+['None', 'Add new voucher']).ask()
 
 if service == 'Foodora':
     # Create account
