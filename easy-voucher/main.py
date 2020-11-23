@@ -53,7 +53,7 @@ password = defaults_dict['password'] or input("Enter account password:")
 # Select voucher
 voucher = questionary.select(
     "Select voucher",
-    choices=defaults_dict["vouchers"][service]+['None', 'Add new voucher']).ask()
+    choices=defaults_dict["vouchers"][service]).ask()
 
 if service == 'Foodora':
     # Create account
