@@ -19,7 +19,7 @@ git clone https://github.com/ekvanox/easy-voucher
 # Go into the repository
 cd easy-voucher
 # Install dependencies
-pip install -r requirements.txt
+pip3 install -r requirements.txt
 ```
 
 ## Usage
