@@ -7,11 +7,11 @@
 
 A python script that programmatically creates and applies vouchers to accounts for UberEats and Foodora.
 
-This script does not utilize any exploit, but will allow for users with access to multiple SIM-cards to create accounts faster.
+This script does **not** utilize any exploit, but will allow for users who _already_ have access to multiple SIM-cards to create accounts _quicker_.
 
 ## Installation
 
-To clone and run this repository you'll need Git and python3 (which includes pip) installed on your computer. From your command line:
+To clone and run this repository you'll need Git and python3 (which includes pip3) installed on your computer. From your command line:
 
 ```bash
 # Clone this repository
@@ -21,6 +21,12 @@ cd easy-voucher
 # Install dependencies
 pip3 install -r requirements.txt
 ```
+
+### Selenium installation
+
+UberEats account creation requires selenium to be configured and currently only the chrome driver is supported.
+
+Detailed Selenium installation instructions can be found on [the selenium module installation page](https://selenium-python.readthedocs.io/installation.html)
 
 ## Usage
 
@@ -40,6 +46,7 @@ python3 easy-voucher.py
 You can configure default credentials in the `defaults.json` file located in `easy-voucher/easy-voucher`
 
 By default the file will look like this:
+
 ```json
 {
   "service": "",
@@ -58,6 +65,7 @@ By default the file will look like this:
 To set a default value for a specific key, the value has to be set to a non empty string.
 
 For example, a config file where all account should use the service UberEats, with the name "John Doe" and the password "Password123" would look like this:
+
 ```json
 {
   "service": "UberEats",
@@ -73,8 +81,7 @@ For example, a config file where all account should use the service UberEats, wi
 }
 ```
 
-The email address key can have the value ```true```, which will result in the script using a random email address each time.
-
+The email address key can have the value `true`, which will result in the script using a random email address each time.
 
 ## License
 
