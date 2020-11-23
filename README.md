@@ -2,7 +2,7 @@
 
 [![Version](https://img.shields.io/github/v/release/ekvanox/easy-voucher)](https://img.shields.io/github/v/release/ekvanox/easy-voucher)
 ![GitHub repo size](https://img.shields.io/github/repo-size/ekvanox/easy-voucher)
-[![CodeFactor](https://www.codefactor.io/repository/github/ekvanox/easy-voucher/badge)](https://www.codefactor.io/repository/github/ekvanox/easy-voucher)
+[![CodeFactor](https://www.codefactor.io/repository/github/ekvanox/easy-voucher/badge/master?s=0364d1dd8aeba09815369d7c6296715d670efebb)](https://www.codefactor.io/repository/github/ekvanox/easy-voucher/overview/master)
 ![License](https://img.shields.io/github/license/ekvanox/easy-voucher)
 
 A python script that programmatically creates and applies vouchers to accounts for UberEats and Foodora.
