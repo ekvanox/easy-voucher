@@ -32,7 +32,7 @@ Just run the script and follow the instructions:
 # Go into the code directory
 cd easy-voucher
 # Execute the script
-python3 main.py
+python3 easy-voucher.py
 ```
 
 ### Advanced usage
